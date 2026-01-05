@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML Tags</title>
+  </head>
+  <body>
+    <h1>HTML Tags and Elements</h1>
+
+    <!-- 
+      1. SEMANTIC VS NON-SEMANTIC TAGS
+      - Semantic tags: These tags have a clear meaning to both the browser and the developer. They describe the content they contain.
+        - Examples: <nav>, <header>, <footer>, <section>, <article>, <aside>, <main>
+      - Non-semantic tags: These tags don't tell anything about the content they contain. They are primarily used for styling or grouping.
+        - Examples: <div>, <span>
+    -->
+    <h3>Semantic tags example:</h3>
+    <nav>Navigation bar</nav>
+    <section>A semantic section</section>
+
+    <h3>Non-semantic tags example:</h3>
+    <div>Non-semantic block-level container (div)</div>
+    <span>Non-semantic inline-level container (span)</span>
+
+    <!-- 
+      2. INLINE VS BLOCK-LEVEL ELEMENTS
+      - Block-level elements: 
+        - Always start on a new line.
+        - Take up the full width available.
+        - Examples: <h1> to <h6>, <p>, <div>, <ul>, <ol>, <dl>
+      - Inline elements: 
+        - Do not start on a new line.
+        - Only take up as much width as necessary.
+        - Examples: <span>, <a>, <img>, <button>, <input>
+    -->
+    <h3>Block level:</h3>
+    <div style="background-color: lightblue">This is a block element</div>
+    <div style="background-color: lightgreen">
+      This is another block element
+    </div>
+
+    <h3>Inline level:</h3>
+    <span style="background-color: lightcoral">This is an inline element</span>
+    <span style="background-color: lightgoldenrodyellow"
+      >This is another inline element</span
+    >
+
+    <!-- 
+      3. HEADINGS, PARAGRAPHS, AND PREFORMATTED TEXT
+      - Headings (<h1> to <h6>): Used to define headings.
+      - Paragraph (<p>): Used for blocks of text.
+      - Preformatted Text (<pre>): Displays text exactly as written, preserving spaces and line breaks.
+    -->
+    <h1>Heading 1</h1>
+    <h6>Heading 6</h6>
+    <p>This is a paragraph.</p>
+    <pre>
+        This text
+        preserves
+        spaces.
+    </pre>
+
+    <!-- 
+      4. MEDIA TAGS (IMG, VIDEO, AND AUDIO)
+      - <img>: Embed images. Attributes: 'src', 'alt', 'width'.
+      - <video>: Embed video content. Attributes: 'src', 'controls'.
+      - <audio>: Embed audio content. Attributes: 'src', 'controls'.
+    -->
+    <h3>Media examples:</h3>
+    <!-- Use placeholders or actual URLs as needed -->
+    <img
+      src="https://via.placeholder.com/150"
+      alt="Placeholder Image"
+      width="150"
+    />
+    <video
+      src="https://www.w3schools.com/html/mov_bbb.mp4"
+      controls
+      width="300"
+    ></video>
+    <audio src="https://www.w3schools.com/html/horse.mp3" controls></audio>
+  </body>
+</html>
