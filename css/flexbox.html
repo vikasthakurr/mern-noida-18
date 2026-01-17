@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        height: 100vh;
+        width: 100vw;
+        background-color: beige;
+        display: flex;
+        gap: 10px;
+        /* flex-direction: row-reverse; */
+        /* flex-direction: column-reverse; */
+        /* justify-content: center; */
+        /* align-items: center; */
+        /* flex-wrap: wrap-reverse; */
+        /* justify-content: space-between; */
+        /* flex-flow: column wrap-reverse; */
+        justify-content: center;
+        align-items: center;
+      }
+      .child {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .child-1 {
+        /* flex-basis: 200px; */
+        /* align-self: flex-start; */
+        /* flex-grow: 2; */
+        /* flex-shrink: 2; */
+        order: 1;
+      }
+      .child-2 {
+        order: 3;
+      }
+      .child-4 {
+        order: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="child child-1">child-1</div>
+      <div class="child child-2">child-2</div>
+      <div class="child child-3">child-3</div>
+      <div class="child child-4">child-4</div>
+      <!-- <div class="child child-5">child-5</div>
+      <div class="child child-6">child-6</div>
+      <div class="child child-7">child-7</div>
+      <div class="child child-8">child-8</div>
+      <div class="child child-9">child-9</div>
+      <div class="child child-10">child-10</div>
+      <div class="child child-11">child-11</div>
+      <div class="child child-12">child-12</div>
+      <div class="child child-13">child-13</div>
+      <div class="child child-14">child-14</div>
+      <div class="child child-15">child-15</div>
+      <div class="child child-16">child-16</div>
+      <div class="child child-17">child-17</div>
+      <div class="child child-18">child-18</div> -->
+    </div>
+  </body>
+</html>
