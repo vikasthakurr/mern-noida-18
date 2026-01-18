@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        width: 600px;
+        height: 500px;
+        background-color: beige;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+      .ball {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* animation-name: jump;
+        animation-duration: 3s;
+        animation-iteration-count: 4;
+        animation-timing-function: ease-in-out;
+        animation-direction: li; */
+        animation: jump 2s infinite ease-in-out;
+      }
+
+      @keyframes jump {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-300px);
+          background-color: blue;
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="ball">Ind VS NZ</div>
+    </div>
+  </body>
+</html>
