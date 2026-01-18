@@ -47,6 +47,93 @@
       .child-4 {
         order: -1;
       }
+      /*
+      FLEXBOX NOTES:
+      -----------------------------------------------
+      The Flexbox module (Flexible Box Layout) aims to provide a more efficient way to lay out, 
+      align, and distribute space among items in a container.
+
+      TERMINOLOGY:
+      - Flex Container: The parent element with `display: flex`.
+      - Flex Items: The direct children of the flex container.
+      - Main Axis: The primary axis along which flex items are laid out (defined by flex-direction).
+      - Cross Axis: The axis perpendicular to the main axis.
+
+      PROPERTIES FOR THE PARENT (FLEX CONTAINER):
+
+      1. display
+         - flex: Block-level flex container.
+         - inline-flex: Inline-level flex container.
+
+      2. flex-direction (The direction of the main axis)
+         - row (default): Left to right.
+         - row-reverse: Right to left.
+         - column: Top to bottom.
+         - column-reverse: Bottom to top.
+
+      3. flex-wrap (Handling overflow)
+         - nowrap (default): Single line.
+         - wrap: Multi-line, wrapping downwards.
+         - wrap-reverse: Multi-line, wrapping upwards.
+
+      4. flex-flow
+         - Shorthand for flex-direction and flex-wrap.
+         - Example: flex-flow: row wrap;
+
+      5. justify-content (Alignment along the MAIN AXIS)
+         - flex-start (default): Packed at start.
+         - flex-end: Packed at end.
+         - center: Centered.
+         - space-between: Distributed evenly, first at start, last at end.
+         - space-around: Distributed evenly with equal space around them.
+         - space-evenly: Distributed with equal space between them.
+
+      6. align-items (Alignment along the CROSS AXIS)
+         - stretch (default): Stretches to fill container.
+         - flex-start: Aligned to start of cross axis.
+         - flex-end: Aligned to end of cross axis.
+         - center: Centered on cross axis.
+         - baseline: Aligned such that their baselines align.
+
+      7. align-content (Alignment of multi-line flex lines)
+         - Only works when there is multiple lines (flex-wrap: wrap).
+         - normal (default): Items packed in their default position.
+         - flex-start: Packed to start of container.
+         - flex-end: Packed to end of container.
+         - center: Centered.
+         - space-between: Distributed evenly.
+         - space-around: Distributed evenly with equal space around each line.
+         - stretch: Lines stretch to take up remaining space.
+
+      -----------------------------------------------
+      PROPERTIES FOR THE CHILDREN (FLEX ITEMS):
+
+      1. order
+         - Controls the order in which items appear.
+         - Default is 0. Accepts integer values (negative allowed).
+
+      2. flex-grow
+         - Defines ability for item to grow.
+         - Default is 0 (does not grow).
+         - Example: flex-grow: 1 (all items equal), flex-grow: 2 (twice as big).
+
+      3. flex-shrink
+         - Defines ability for item to shrink.
+         - Default is 1.
+
+      4. flex-basis
+         - Defines default size before remaining space is distributed.
+         - Default is auto. Can be length (px, %, etc.).
+
+      5. flex
+         - Shorthand for flex-grow, flex-shrink, and flex-basis.
+         - Recommended to use shorthand.
+         - Default: 0 1 auto.
+
+      6. align-self
+         - Overrides align-items for individual items.
+         - Values: auto | flex-start | flex-end | center | baseline | stretch.
+      */
     </style>
   </head>
   <body>
