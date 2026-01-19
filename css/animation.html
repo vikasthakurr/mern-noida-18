@@ -5,6 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      /*
+        CSS ANIMATION NOTES:
+        ---------------------
+        CSS Animations allow you to animate the transition of CSS properties over time.
+        They consist of two parts:
+        1. @keyframes - defines the animation sequence
+        2. animation properties - applies the animation to an element
+
+        ════════════════════════════════════════════════════════════════════
+        PART 1: @KEYFRAMES
+        ════════════════════════════════════════════════════════════════════
+
+        @keyframes defines what happens during the animation timeline.
+
+        SYNTAX:
+        @keyframes animation-name {
+          0% {
+            /* CSS properties at start */
+          }
+          50% {
+            /* CSS properties at midpoint */
+          }
+          100% {
+            /* CSS properties at end */
+          }
+        }
+
+      /*  - You can use percentages (0% to 100%) or keywords (from, to).
+        - 'from' is equivalent to 0%, 'to' is equivalent to 100%.
+        - You can define as many intermediate keyframes as needed.
+
+        EXAMPLE:
+        @keyframes jump {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-300px); background-color: blue; }
+          100% { transform: translateY(0px); }
+        }
+
+        ════════════════════════════════════════════════════════════════════
+        PART 2: ANIMATION PROPERTIES
+        ════════════════════════════════════════════════════════════════════
+
+        1. animation-name: <keyframe-name>
+           - Specifies the name of the @keyframes animation to use.
+           - Example: animation-name: jump;
+
+        2. animation-duration: <time>
+           - How long the animation takes to complete one cycle.
+           - Values: Time in seconds (s) or milliseconds (ms).
+           - Example: animation-duration: 3s;
+
+        3. animation-timing-function: <timing>
+           - Defines the speed curve of the animation.
+           - Values: ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier()
+           - ease: slow start, fast middle, slow end (default)
+           - linear: constant speed
+           - ease-in: slow start
+           - ease-out: slow end
+           - ease-in-out: slow start and end
+           - Example: animation-timing-function: ease-in-out;
+
+        4. animation-delay: <time>
+           - Delay before the animation starts.
+           - Values: Time in seconds (s) or milliseconds (ms).
+           - Example: animation-delay: 1s;
+
+        5. animation-iteration-count: <number | infinite>
+           - How many times the animation should repeat.
+           - Values: Number (e.g., 1, 2, 3, 4) or 'infinite'.
+           - Example: animation-iteration-count: 4; or animation-iteration-count: infinite;
+
+        6. animation-direction: <direction>
+           - Sets whether the animation should play forwards, backwards, or alternate.
+           - Values:
+             * normal: forwards (default)
+             * reverse: backwards
+             * alternate: forwards then backwards
+             * alternate-reverse: backwards then forwards
+           - Example: animation-direction: alternate;
+
+        7. animation-fill-mode: <fill-mode>
+           - Specifies how styles are applied before/after animation.
+           - Values:
+             * none: no styles applied (default)
+             * forwards: keeps final keyframe styles after animation ends
+             * backwards: applies first keyframe styles before animation starts
+             * both: applies both forwards and backwards
+           - Example: animation-fill-mode: forwards;
+
+        8. animation-play-state: <state>
+           - Whether the animation is running or paused.
+           - Values: running | paused
+           - Example: animation-play-state: paused;
+
+        ════════════════════════════════════════════════════════════════════
+        SHORTHAND PROPERTY
+        ════════════════════════════════════════════════════════════════════
+
+        animation: <name> <duration> <timing-function> <delay> <iteration-count> <direction> <fill-mode> <play-state>;
+
+        EXAMPLES:
+        - animation: jump 2s ease-in-out;
+        - animation: jump 2s infinite ease-in-out;
+        - animation: slide 1s ease-in 0.5s 3 alternate forwards;
+
+        NOTE: Order matters for duration and delay (first time value = duration, second = delay).
+
+        ════════════════════════════════════════════════════════════════════
+        MULTIPLE ANIMATIONS
+        ════════════════════════════════════════════════════════════════════
+
+        You can apply multiple animations by separating them with commas:
+        animation: jump 2s infinite, rotate 3s linear infinite;
+
+        ════════════════════════════════════════════════════════════════════
+        PERFORMANCE TIPS
+        ════════════════════════════════════════════════════════════════════
+
+        - Animate transform and opacity for best performance (GPU-accelerated).
+        - Avoid animating width, height, top, left (causes layout recalculation).
+        - Use will-change property sparingly to hint browser optimization.
+      */
       .container {
         width: 600px;
         height: 500px;

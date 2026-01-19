@@ -5,6 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      /* 
+        CSS FILTER NOTES:
+        ------------------
+        The CSS filter property applies visual effects (like blur, brightness, contrast, etc.) 
+        to elements. Filters are commonly applied to images, backgrounds, and borders.
+
+        SYNTAX:
+        filter: <filter-function> [<filter-function>]*;
+        
+        FILTER FUNCTIONS:
+        
+        1. blur(radius)
+           - Applies a Gaussian blur to the element.
+           - Values: Length in px (e.g., blur(5px)).
+           - Example: filter: blur(5px);
+        
+        2. brightness(amount)
+           - Adjusts the brightness of the element.
+           - Values: Number or percentage. 0% = completely black, 100% = original, >100% = brighter.
+           - Example: filter: brightness(1.5); or filter: brightness(150%);
+        
+        3. contrast(amount)
+           - Adjusts the contrast of the element.
+           - Values: Number or percentage. 0% = gray, 100% = original, >100% = more contrast.
+           - Example: filter: contrast(200%);
+        
+        4. grayscale(amount)
+           - Converts the element to grayscale.
+           - Values: 0% to 100%. 0% = original color, 100% = completely grayscale.
+           - Example: filter: grayscale(50%);
+        
+        5. hue-rotate(angle)
+           - Applies a hue rotation to the element.
+           - Values: Angle in degrees (deg). 360deg = full circle.
+           - Example: filter: hue-rotate(90deg);
+        
+        6. invert(amount)
+           - Inverts the colors of the element.
+           - Values: 0% to 100%. 0% = original, 100% = completely inverted.
+           - Example: filter: invert(75%);
+        
+        7. opacity(amount)
+           - Adjusts the opacity/transparency of the element.
+           - Values: 0% to 100%. 0% = fully transparent, 100% = fully opaque.
+           - Example: filter: opacity(25%);
+           - NOTE: Similar to the opacity property, but filter can be hardware-accelerated.
+        
+        8. saturate(amount)
+           - Adjusts the saturation of the element.
+           - Values: 0% = completely unsaturated (grayscale), 100% = original, >100% = more saturated.
+           - Example: filter: saturate(30%);
+        
+        9. sepia(amount)
+           - Applies a sepia tone effect to the element.
+           - Values: 0% to 100%. 0% = original, 100% = completely sepia.
+           - Example: filter: sepia(60%);
+        
+        10. drop-shadow(offset-x offset-y blur-radius color)
+            - Applies a drop shadow effect to the element.
+            - Unlike box-shadow, drop-shadow follows the contour of the element (e.g., transparent PNGs).
+            - Example: filter: drop-shadow(16px 16px 20px blue);
+        
+        COMBINING FILTERS:
+        - You can apply multiple filters by separating them with spaces.
+        - Example: filter: blur(5px) brightness(1.2) contrast(1.5);
+        
+        PERFORMANCE:
+        - Filters can be GPU-accelerated in modern browsers.
+        - Excessive or complex filters may impact performance.
+      */
       img {
         /* filter: blur(5px); */
         /* filter: opacity(10px); */

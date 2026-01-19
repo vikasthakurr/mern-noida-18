@@ -6,6 +6,53 @@
     <title>Document</title>
     <style>
       * {
+        /* 
+          CSS GRID NOTES:
+          ----------------
+          CSS Grid Layout is a 2-dimensional system, meaning it can handle both columns and rows, 
+          unlike Flexbox which is largely 1-dimensional.
+
+          1. CONTAINER PROPERTIES (Applied to parent):
+             - display: grid; 
+               activates the grid layout.
+             
+             - grid-template-columns: 
+               Defines the number and width of columns.
+               Values can be pixels (px), percentages (%), or fractions (fr).
+               Example: grid-template-columns: 200px 1fr 1fr; (1st col 200px, others split remaining space)
+               
+             - grid-template-rows: 
+               Defines the height of rows.
+             
+             - gap: 
+               Shorthand for row-gap and column-gap.
+               Example: gap: 20px; (20px gap between all rows and cols)
+             
+             - grid-template-areas: 
+               Defines the grid layout by referencing the names of the grid areas (specified in items).
+             
+             - justify-items: start | end | center | stretch;
+               Aligns items horizontally inside their grid cell.
+             
+             - align-items: start | end | center | stretch;
+               Aligns items vertically inside their grid cell.
+
+          2. ITEM PROPERTIES (Applied to children):
+             - grid-column: start-line / end-line; 
+               Shorthand for grid-column-start and grid-column-end.
+               Example: grid-column: 1 / 4; (Spans from line 1 to line 4)
+             
+             - grid-row: start-line / end-line;
+               Shorthand for grid-row-start and grid-row-end.
+             
+             - grid-area: name;
+               Assigns a name to an item to be used in grid-template-areas.
+
+          3. UNITS & FUNCTIONS:
+             - fr: Fraction of available space (e.g., 1fr 2fr).
+             - repeat(): Repeats a pattern (e.g., repeat(3, 1fr) = 1fr 1fr 1fr).
+             - minmax(min, max): Defines a size range.
+        */
         margin: 0;
         padding: 0;
         box-sizing: border-box;
