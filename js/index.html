@@ -3,10 +3,848 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>JavaScript - The Complete Guide</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-dark: #0a0e27;
+        --bg-card: #141936;
+        --accent-yellow: #f7df1e;
+        --accent-blue: #61dafb;
+        --accent-purple: #a855f7;
+        --accent-green: #10b981;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1f3a 100%);
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+          radial-gradient(
+            circle at 20% 30%,
+            rgba(247, 223, 30, 0.05) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(97, 218, 251, 0.05) 0%,
+            transparent 50%
+          );
+        z-index: -1;
+        animation: pulse 15s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        padding: 80px 20px 60px;
+        position: relative;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 800;
+        margin-bottom: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--accent-yellow) 0%,
+          var(--accent-blue) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: fadeInDown 1s ease-out;
+      }
+
+      .hero .subtitle {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        color: var(--text-secondary);
+        max-width: 700px;
+        margin: 0 auto 40px;
+        animation: fadeInUp 1s ease-out 0.2s both;
+      }
+
+      .hero .js-logo {
+        font-size: 80px;
+        background: var(--accent-yellow);
+        color: var(--bg-dark);
+        padding: 20px;
+        border-radius: 20px;
+        display: inline-block;
+        font-weight: 800;
+        box-shadow: 0 20px 60px rgba(247, 223, 30, 0.3);
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Cards */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 30px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--accent-yellow),
+          var(--accent-blue)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        border-color: var(--accent-yellow);
+      }
+
+      .card-icon {
+        font-size: 40px;
+        margin-bottom: 16px;
+        display: inline-block;
+      }
+
+      .card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        color: var(--text-primary);
+      }
+
+      .card p {
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+
+      .card ul {
+        list-style: none;
+        margin-top: 16px;
+      }
+
+      .card ul li {
+        color: var(--text-secondary);
+        padding: 8px 0;
+        padding-left: 24px;
+        position: relative;
+      }
+
+      .card ul li::before {
+        content: "▹";
+        position: absolute;
+        left: 0;
+        color: var(--accent-yellow);
+        font-weight: bold;
+      }
+
+      /* Section */
+      section {
+        padding: 60px 20px;
+      }
+
+      .section-title {
+        font-size: clamp(2rem, 4vw, 2.5rem);
+        font-weight: 700;
+        margin-bottom: 16px;
+        text-align: center;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--accent-yellow),
+          var(--accent-blue)
+        );
+        border-radius: 2px;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: var(--text-secondary);
+        max-width: 700px;
+        margin: 24px auto 40px;
+      }
+
+      /* Timeline */
+      .timeline {
+        position: relative;
+        padding: 40px 0;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(
+          180deg,
+          var(--accent-yellow),
+          var(--accent-blue)
+        );
+      }
+
+      .timeline-item {
+        display: flex;
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .timeline-item:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+
+      .timeline-content {
+        width: 45%;
+        background: var(--bg-card);
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+      }
+
+      .timeline-content:hover {
+        transform: scale(1.05);
+        border-color: var(--accent-yellow);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .timeline-year {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--accent-yellow);
+        margin-bottom: 8px;
+      }
+
+      .timeline-item::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 16px;
+        height: 16px;
+        background: var(--accent-yellow);
+        border-radius: 50%;
+        border: 3px solid var(--bg-dark);
+        top: 24px;
+      }
+
+      /* Code Block Style */
+      .code-block {
+        background: #1e293b;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 4px solid var(--accent-yellow);
+        margin: 20px 0;
+        overflow-x: auto;
+      }
+
+      .code-block code {
+        color: var(--accent-green);
+        font-family: "Courier New", monospace;
+      }
+
+      /* Features Grid */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 24px;
+        margin: 40px 0;
+      }
+
+      .feature-item {
+        background: var(--bg-card);
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .feature-item:hover {
+        border-color: var(--accent-blue);
+        transform: translateY(-5px);
+      }
+
+      .feature-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .feature-item h4 {
+        font-size: 1.125rem;
+        margin-bottom: 8px;
+        color: var(--text-primary);
+      }
+
+      .feature-item p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 20px;
+        background: var(--bg-card);
+        border-top: 1px solid var(--border-color);
+        margin-top: 60px;
+      }
+
+      footer p {
+        color: var(--text-secondary);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .timeline::before {
+          left: 20px;
+        }
+
+        .timeline-item {
+          flex-direction: column !important;
+        }
+
+        .timeline-content {
+          width: 100%;
+          margin-left: 40px;
+        }
+
+        .timeline-item::after {
+          left: 20px;
+        }
+      }
+
+      /* Highlight Box */
+      .highlight-box {
+        background: linear-gradient(
+          135deg,
+          rgba(247, 223, 30, 0.1),
+          rgba(97, 218, 251, 0.1)
+        );
+        border: 2px solid var(--accent-yellow);
+        border-radius: 16px;
+        padding: 30px;
+        margin: 40px 0;
+        text-align: center;
+      }
+
+      .highlight-box h3 {
+        font-size: 1.75rem;
+        margin-bottom: 16px;
+      }
+
+      .highlight-box p {
+        color: var(--text-secondary);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hi</h1>
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="container">
+        <div class="js-logo">JS</div>
+        <h1>JavaScript Fundamentals</h1>
+        <p class="subtitle">
+          The complete guide to understanding JavaScript - from history and
+          execution models to modern JIT compilation and runtime environments
+        </p>
+      </div>
+    </div>
+
+    <!-- What is JavaScript -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">What is JavaScript?</h2>
+        <p class="section-subtitle">
+          JavaScript is a high-level, interpreted, dynamically-typed programming
+          language that is one of the core technologies of the web, alongside
+          HTML and CSS.
+        </p>
+
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon">⚡</div>
+            <h3>High-Level Language</h3>
+            <p>
+              Abstracted from machine code with automatic memory management,
+              making it easier to write and understand.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🔄</div>
+            <h3>Dynamically Typed</h3>
+            <p>
+              Variable types are determined at runtime, offering flexibility but
+              requiring careful coding practices.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🎯</div>
+            <h3>Multi-Paradigm</h3>
+            <p>
+              Supports functional, object-oriented, and imperative programming
+              styles for versatile development.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🔀</div>
+            <h3>Single-Threaded</h3>
+            <p>
+              Executes one command at a time but handles async operations
+              through the event loop.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🚀</div>
+            <h3>Non-Blocking</h3>
+            <p>
+              Uses event loop for asynchronous operations, keeping applications
+              responsive and fast.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🔗</div>
+            <h3>Prototype-Based</h3>
+            <p>
+              Uses prototypes for object inheritance, different from classical
+              inheritance models.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Timeline -->
+    <section style="background: rgba(20, 25, 54, 0.5)">
+      <div class="container">
+        <h2 class="section-title">JavaScript History</h2>
+        <p class="section-subtitle">
+          Created by Brendan Eich in just 10 days, JavaScript has evolved into
+          one of the most popular programming languages in the world.
+        </p>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-year">1995</div>
+              <h4>Birth of JavaScript</h4>
+              <p>
+                Created by Brendan Eich at Netscape in just 10 days. Originally
+                called "Mocha", then "LiveScript", finally renamed to
+                "JavaScript".
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-year">1997</div>
+              <h4>ECMAScript 1</h4>
+              <p>
+                First standardized version by ECMA International. JavaScript
+                becomes ECMAScript specification (ECMA-262).
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-year">2009</div>
+              <h4>ECMAScript 5</h4>
+              <p>
+                Major update introducing "use strict", JSON support, Array
+                methods (map, filter, reduce), and more.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-year">2015</div>
+              <h4>ECMAScript 6 (ES2015)</h4>
+              <p>
+                Revolutionary update: let/const, arrow functions, classes,
+                promises, template literals, destructuring, modules.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-year">2016+</div>
+              <h4>Modern JavaScript</h4>
+              <p>
+                Yearly releases with continuous improvements: async/await,
+                optional chaining, nullish coalescing, and more.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JIT Compilation -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">JIT Compilation</h2>
+        <p class="section-subtitle">
+          Just-In-Time compilation combines interpretation speed with
+          compilation performance, making modern JavaScript incredibly fast.
+        </p>
+
+        <div class="highlight-box">
+          <h3>How JIT Works</h3>
+          <p>
+            Modern JavaScript engines don't just interpret code line by line.
+            They use sophisticated JIT compilation techniques that compile
+            frequently-executed code into optimized machine code during runtime,
+            dramatically improving performance.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">📝</div>
+            <h4>Parsing</h4>
+            <p>Source code is parsed into an Abstract Syntax Tree (AST)</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">⚙️</div>
+            <h4>Baseline Compilation</h4>
+            <p>AST converted to bytecode for immediate execution</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">🎯</div>
+            <h4>Profiling</h4>
+            <p>Engine identifies "hot" code paths during execution</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">🚀</div>
+            <h4>Optimization</h4>
+            <p>Hot code compiled to highly optimized machine code</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JavaScript Engines -->
+    <section style="background: rgba(20, 25, 54, 0.5)">
+      <div class="container">
+        <h2 class="section-title">JavaScript Engines</h2>
+        <p class="section-subtitle">
+          Different browsers and runtimes use different JavaScript engines to
+          execute your code.
+        </p>
+
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon">🔷</div>
+            <h3>V8 Engine</h3>
+            <p>
+              Google's high-performance engine powering Chrome, Edge, Node.js,
+              and Deno.
+            </p>
+            <ul>
+              <li>Ignition interpreter</li>
+              <li>TurboFan optimizer</li>
+              <li>Written in C++</li>
+              <li>Open source</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🦊</div>
+            <h3>SpiderMonkey</h3>
+            <p>
+              Mozilla's engine for Firefox, the first JavaScript engine ever
+              created (1995).
+            </p>
+            <ul>
+              <li>Baseline interpreter</li>
+              <li>IonMonkey optimizer</li>
+              <li>Written in C++</li>
+              <li>Open source</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🍎</div>
+            <h3>JavaScriptCore</h3>
+            <p>
+              Apple's engine for Safari, also known as Nitro or SquirrelFish.
+            </p>
+            <ul>
+              <li>Multiple optimization tiers</li>
+              <li>Part of WebKit</li>
+              <li>Written in C++</li>
+              <li>Open source</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Runtime Environment -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">Runtime Environments</h2>
+        <p class="section-subtitle">
+          JavaScript runs in different environments, each providing unique APIs
+          and capabilities.
+        </p>
+
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon">🌐</div>
+            <h3>Browser Runtime</h3>
+            <p>Client-side JavaScript with Web APIs:</p>
+            <ul>
+              <li>DOM manipulation</li>
+              <li>Fetch API</li>
+              <li>setTimeout/setInterval</li>
+              <li>localStorage</li>
+              <li>Geolocation</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">💻</div>
+            <h3>Node.js Runtime</h3>
+            <p>Server-side JavaScript with Node APIs:</p>
+            <ul>
+              <li>File System (fs)</li>
+              <li>HTTP/HTTPS</li>
+              <li>Streams</li>
+              <li>Process management</li>
+              <li>C++ bindings</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">📱</div>
+            <h3>Other Environments</h3>
+            <p>JavaScript everywhere:</p>
+            <ul>
+              <li>React Native (mobile)</li>
+              <li>Electron (desktop)</li>
+              <li>IoT devices</li>
+              <li>Game development</li>
+              <li>Machine Learning</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Concepts -->
+    <section style="background: rgba(20, 25, 54, 0.5)">
+      <div class="container">
+        <h2 class="section-title">Key Concepts</h2>
+        <p class="section-subtitle">
+          Essential JavaScript concepts every developer should understand.
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">📊</div>
+            <h4>Event Loop</h4>
+            <p>Handles asynchronous operations in single-threaded JavaScript</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">🔒</div>
+            <h4>Closures</h4>
+            <p>Functions remember their lexical scope</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">⬆️</div>
+            <h4>Hoisting</h4>
+            <p>Variable declarations moved to the top of scope</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">🎯</div>
+            <h4>Scope</h4>
+            <p>Global, function, and block scope determine accessibility</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">🔗</div>
+            <h4>Prototypes</h4>
+            <p>Objects inherit from other objects via prototype chain</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <h4>First-Class Functions</h4>
+            <p>Functions are objects that can be passed around</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">Best Practices</h2>
+        <div class="highlight-box">
+          <h3>Modern JavaScript Development</h3>
+          <div class="cards-grid" style="margin-top: 30px">
+            <div class="card">
+              <h3>✅ DO</h3>
+              <ul>
+                <li>Use const/let over var</li>
+                <li>Use arrow functions</li>
+                <li>Async/await for promises</li>
+                <li>ES6+ features</li>
+                <li>Modularize code</li>
+                <li>Use strict mode</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>❌ AVOID</h3>
+              <ul>
+                <li>Using var keyword</li>
+                <li>Callback hell</li>
+                <li>Global variables</li>
+                <li>eval() function</li>
+                <li>Synchronous blocking code</li>
+                <li>Ignoring errors</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>🚀 JavaScript - Powering the modern web since 1995</p>
+        <p style="margin-top: 10px; font-size: 0.9rem">
+          Keep learning, keep building, keep coding! 💻
+        </p>
+      </div>
+    </footer>
+
     <script src="index.js"></script>
   </body>
 </html>

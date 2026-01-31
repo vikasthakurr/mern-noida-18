@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Closures - Button Example</title>
+    <!--
+    =============================================================================
+                        JAVASCRIPT CLOSURES EXPLAINED
+    =============================================================================
+    
+    WHAT IS A CLOSURE?
+    - A closure is when an inner function has access to outer function's variables
+    - The inner function "closes over" the outer function's scope
+    - Variables from outer scope remain accessible even after outer function returns
+    - One of JavaScript's most powerful and important features
+    
+    HOW CLOSURES WORK:
+    1. Inner function is defined inside outer function
+    2. Inner function has access to outer function's variables
+    3. When outer function returns the inner function, it carries the scope with it
+    4. The outer function's variables stay alive because inner function references them
+    5. Creates data privacy and encapsulation
+    
+    WHY USE CLOSURES?
+    ✓ Create private variables (data encapsulation)
+    ✓ Factory functions that generate customized functions
+    ✓ Event handlers that need to remember specific data
+    ✓ Callbacks that need access to outer scope
+    ✓ Module pattern for code organization
+    
+    REAL-WORLD USES:
+    - Event handlers (like our button example below)
+    - Timers and intervals that need specific data
+    - Function factories
+    - Currying and partial application
+    - Private state in objects
+    
+    =============================================================================
+    CLOSURE EXAMPLE 1: Basic Closure (Commented Out Below)
+    =============================================================================
+    
+    The basic example shows:
+    - outer() function with variable 'a'
+    - inner() function that can access 'a'
+    - This is a closure because inner() uses outer's variable
+    
+    =============================================================================
+    CLOSURE EXAMPLE 2: Button Click Handlers (Active Example)
+    =============================================================================
+    
+    This page demonstrates a PRACTICAL closure example:
+    - Two buttons (Green and Red)
+    - Each button changes the background color when clicked
+    - Uses handleClick() factory function to create closures
+    
+    HOW IT WORKS:
+    1. handleClick(color) receives a color parameter
+    2. Returns an inner function that "remembers" the color
+    3. Each button gets its own closure with its own color
+    4. Green button's closure remembers "green"
+    5. Red button's closure remembers "red"
+    6. When clicked, the inner function still has access to its color!
+    
+    THE MAGIC:
+    - handleClick("green") executes and finishes
+    - But the returned function STILL remembers color = "green"
+    - This is the closure in action!
+    
+    =============================================================================
+    -->
+  </head>
+  <body>
+    <!--
+    =============================================================================
+    BASIC CLOSURE EXAMPLE (Commented Out)
+    =============================================================================
+    This shows the fundamental concept of closures:
+    -->
+    <!-- 
+    <script>
+      // Basic closure structure
+      function outer() {
+        let a = 10;  // Variable in outer scope
+        
+        function inner() {
+          console.log(a);  // Inner function accesses outer's variable
+        }
+        
+        inner();  // Calling inner() while still inside outer()
+        
+        // To see true closure power, uncomment below:
+        // return inner;  // Return inner function to use outside
+      }
+      
+      outer();  // Calls outer, which calls inner, prints: 10
+      
+      // TRUE CLOSURE EXAMPLE:
+      // let res = outer();  // outer() returns inner function
+      // res();  // inner() still has access to 'a' even after outer() finished!
+    </script> 
+    -->
+
+    <!-- Two buttons to demonstrate closures with event handlers -->
+    <button id="green">Green</button>
+    <button id="red">Red</button>
+
+    <script>
+      /*
+      =============================================================================
+      PRACTICAL CLOSURE EXAMPLE: Button Event Handlers
+      =============================================================================
+      
+      This example demonstrates how closures are used in real applications.
+      Each button needs to "remember" its specific color when clicked.
+      */
+
+      // STEP 1: Attach click handlers using closures
+      // Green button gets a closure that remembers "green"
+      const greenBtn = (document.getElementById("green").onclick =
+        handleClick("green"));
+
+      // Red button gets a closure that remembers "red"
+      const redBtn = (document.getElementById("red").onclick =
+        handleClick("red"));
+
+      /*
+      STEP 2: The Factory Function - Creates Closures
+      
+      handleClick() is a "factory function" that creates customized functions.
+      Each returned function is a closure that remembers the 'color' parameter.
+      */
+      function handleClick(color) {
+        // 'color' parameter is captured in the closure
+
+        // Return an inner function (this is the closure)
+        return function () {
+          // This function still has access to 'color' even after handleClick() returns!
+          // This is the CLOSURE in action
+          document.body.style.backgroundColor = `${color}`;
+        };
+      }
+
+      /*
+      =============================================================================
+      HOW THE CLOSURE WORKS (Step-by-Step)
+      =============================================================================
+      
+      1. handleClick("green") is called:
+         - Creates a new execution context
+         - Sets color = "green"
+         - Returns a new function
+         - handleClick() finishes and normally 'color' would be destroyed
+      
+      2. BUT - the returned function still holds a reference to 'color'
+         - JavaScript keeps 'color' alive in memory
+         - This is the closure - the function "closes over" the variable
+      
+      3. The same happens for handleClick("red"):
+         - Creates its OWN closure with color = "red"
+         - Each button has its own independent closure
+      
+      4. When green button is clicked:
+         - Its closure function executes
+         - Still has access to its 'color' ("green")
+         - Sets background to green
+      
+      5. When red button is clicked:
+         - Its closure function executes  
+         - Still has access to its 'color' ("red")
+         - Sets background to red
+      
+      =============================================================================
+      WHY THIS IS POWERFUL
+      =============================================================================
+      
+      Without closures, you'd need global variables or complex workarounds:
+      
+      // BAD - Without closures (global variables)
+      let greenColor = "green";
+      let redColor = "red";
+      document.getElementById("green").onclick = function() {
+        document.body.style.backgroundColor = greenColor;
+      };
+      
+      // GOOD - With closures (no globals needed)
+      document.getElementById("green").onclick = handleClick("green");
+      
+      =============================================================================
+      KEY TAKEAWAYS
+      =============================================================================
+      
+      1. Closure = inner function + access to outer function's variables
+      2. Variables "captured" by closure stay alive even after outer function returns
+      3. Each closure is independent (green and red don't interfere)
+      4. Closures enable data privacy (color is private to each function)
+      5. Common in event handlers, callbacks, and factory functions
+      
+      =============================================================================
+      */
+    </script>
+  </body>
+</html>
