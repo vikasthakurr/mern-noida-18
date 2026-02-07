@@ -1,1 +1,1 @@
-city: "delhi",
+ console.log(`hi ${name}`);
