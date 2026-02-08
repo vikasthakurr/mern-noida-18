@@ -1,54 +1,52 @@
-<!-- <!doctype html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Memory Leak Demo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
   </head>
   <body>
-    <h2>Memory Leak Example</h2>
-    <button id="start">Start Leak</button>
-    <button id="stop">Stop Leak</button>
+    <button id="myButton">Click Me</button>
+    <div id="output"></div>
 
     <script>
-      let leakyArray = [];
-      let intervalId;
+      function throttle(func, delay) {
+        let inThrottle;
+        let lastFn;
+        let lastTime;
 
-      document.getElementById("start").addEventListener("click", () => {
-        intervalId = setInterval(() => {
-          // Keep pushing large data into the array
-          leakyArray.push(new Array(1000000).fill("leak!"));
+        return function () {
+          const context = this;
+          const args = arguments;
+          if (!inThrottle) {
+            func.apply(context, args);
+            lastTime = Date.now();
+            inThrottle = true;
+          } else {
+            clearTimeout(lastFn);
+            lastFn = setTimeout(
+              function () {
+                if (Date.now() - lastTime >= delay) {
+                  func.apply(context, args);
+                  lastTime = Date.now();
+                }
+              },
+              Math.max(delay - (Date.now() - lastTime), 0),
+            );
+          }
+        };
+      }
 
-          console.log("Array size:", leakyArray.length);
-        }, 500);
-      });
+      const myButton = document.getElementById("myButton");
+      const outputDiv = document.getElementById("output");
 
-      document.getElementById("stop").addEventListener("click", () => {
-        clearInterval(intervalId);
-        console.log("Stopped leaking, but memory is still used.");
-      });
+      function printClickTime() {
+        const now = new Date();
+        outputDiv.innerHTML += `Button clicked at: ${now.toLocaleTimeString()}<br>`;
+      }
+
+      // Apply throttling to the printClickTime function with a 1-second delay
+      myButton.addEventListener("click", throttle(printClickTime, 2000));
     </script>
   </body>
-</html> -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
- <script>
-  function autoMailer(to) {
-  return function (sub) {
-    return function (body) {
-      console.log(
-        `mail has been sent to ${to} with subject ${sub} and body ${body}`,
-      );
-    };
-  };
-}
-
-autoMailer("vikas@gmail.com")("order details");
- </script> 
-</body>
 </html>

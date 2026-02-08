@@ -1,1 +1,2 @@
- console.log(`hi ${name}`);
+searchInput("vikas singh");
+searchInput("vikas kumar thakur");
