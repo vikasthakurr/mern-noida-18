@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input
+      type="text"
+      name=""
+      id="user"
+      placeholder="enter your github username"
+    />
+    <button id="fetch">Get Profile</button>
+
+    <script>
+      const fetchBtn = document.querySelector("#fetch");
+
+      fetchBtn.addEventListener("click", () => {
+        const userInput = document.querySelector("#user").value;
+        fetch(`https://api.github.com/users/${userInput}`)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            const img = document.createElement("img");
+            img.setAttribute("src", data.avatar_url);
+            document.body.appendChild(img);
+            const follower = document.createElement("span");
+            follower.innerText = `${data.bio}`;
+            document.body.appendChild(follower);
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+        --bg-1: #f8fbff;
+        --bg-2: #e7f0ff;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --border: #dbe3ef;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+        background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      #inputValue,
+      button,
+      .container {
+        border-radius: 12px;
+      }
+
+      #inputValue {
+        width: 260px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        font-size: 15px;
+        outline: none;
+        margin-right: 10px;
+      }
+
+      #inputValue:focus {
+        border-color: #93c5fd;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+      }
+
+      button {
+        padding: 12px 18px;
+        border: 0;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease,
+          transform 0.1s ease;
+      }
+
+      button:hover {
+        background: var(--primary-hover);
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      .container {
+        margin-top: 18px;
+        width: min(900px, 92vw);
+        min-height: 420px;
+        max-height: 62vh;
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: 0 12px 35px rgba(31, 41, 55, 0.12);
+        padding: 14px;
+        overflow: auto;
+      }
+
+      .circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        /* background: radial-gradient(circle at 35% 35%, #fca5a5, #ef4444); */
+        margin: 5px;
+        display: inline-block;
+        box-shadow: 0 6px 14px rgba(239, 68, 68, 0.25);
+      }
+
+      .square {
+        width: 100px;
+        height: 100px;
+        /* background: linear-gradient(135deg, #86efac, #16a34a); */
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="inputValue" type="text" placeholder="enter no of shape" />
+    <input type="text" id="shapeType" placeholder="enter shape type" />
+    <input type="color" name="" id="inputColor" />
+    <button id="generate">Generate</button>
+
+    <div class="container"></div>
+
+    <script>
+      const generateBtn = document.querySelector("#generate");
+
+      generateBtn.addEventListener("click", () => {
+        const number = document.querySelector("#inputValue").value;
+        const shapeName = document.querySelector("#shapeType").value;
+        const shapeColor = document.querySelector("#inputColor").value;
+
+        // console.log(number, shapeName, shapeColor);
+        for (let i = 0; i < number; i++) {
+          const shape = document.createElement("div");
+          shape.classList.add(shapeName);
+          shape.style.backgroundColor = shapeColor;
+
+          document.querySelector(".container").appendChild(shape);
+        }
+      });
+    </script>
+  </body>
+</html>

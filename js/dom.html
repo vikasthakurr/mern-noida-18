@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .vikas {
+        width: 500px;
+        height: 500px;
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div id="first-div">
+      <h1>Hello World</h1>
+      <h1>Hello World2</h1>
+      <p>This is a paragraph</p>
+      <span>This is a span</span>
+    </div>
+    <div class="first"></div> -->
+    <!-- <img src="" alt=""> -->
+    <script>
+      //   const result = document.getElementsByTagName("div");
+      //   const result = document.getElementsByClassName("first");
+      //   const result = document.querySelectorAll(".first");
+      //   const res = document.getElementById("first-div");
+      //   console.log(res.nextSibling);
+
+      //creation of element
+      const div = document.createElement("div");
+      div.innerHTML = "vikas";
+      div.classList.add("vikas");
+      document.body.appendChild(div);
+      div.classList.remove("vikas");
+
+      const image = document.createElement("img");
+      image.setAttribute(
+        "src",
+        "https://images.pexels.com/photos/34408249/pexels-photo-34408249.jpeg",
+      );
+      image.setAttribute("alt", "this was an image of mountain");
+
+      image.style.width = "300px";
+      image.style.height = "600px";
+      document.body.appendChild(image);
+    </script>
+  </body>
+</html>

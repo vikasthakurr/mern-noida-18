@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+        --bg-1: #f7faff;
+        --bg-2: #dfeeff;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --border: #d8e3f2;
+        --primary: #1d4ed8;
+        --primary-hover: #1e40af;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+        color: var(--text);
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .container {
+        width: min(760px, 95vw);
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 14px 35px rgba(31, 41, 55, 0.14);
+        padding: 24px;
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: 1.6rem;
+      }
+
+      p {
+        margin: 0 0 16px;
+        color: var(--muted);
+      }
+
+      #btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 11px 16px;
+        font-size: 0.96rem;
+        font-weight: 600;
+        background: var(--primary);
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.12s ease;
+      }
+
+      #btn:hover {
+        background: var(--primary-hover);
+      }
+
+      #btn:active {
+        transform: translateY(1px);
+      }
+
+      #list {
+        margin: 16px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      #list li {
+        padding: 11px 12px;
+        margin-bottom: 8px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #f9fbff;
+      }
+
+      .status {
+        margin-top: 12px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Users List</h1>
+      <p>Click the button to fetch and print all names from the API.</p>
+      <button id="btn">Fetch Data</button>
+      <div id="status" class="status"></div>
+      <ul id="list"></ul>
+    </div>
+
+    <script>
+      const button = document.querySelector("#btn");
+      const list = document.querySelector("#list");
+      const status = document.querySelector("#status");
+
+      button.addEventListener("click", () => {
+        list.innerHTML = "";
+        status.textContent = "Loading...";
+
+        fetch("https://jsonplaceholder.typicode.com/users")
+          .then((res) => res.json())
+          .then((data) => {
+            data.forEach((user) => {
+              const li = document.createElement("li");
+              li.textContent = user.name;
+              list.appendChild(li);
+            });
+            status.textContent = `Loaded ${data.length} users.`;
+          })
+          .catch(() => {
+            status.textContent = "Failed to fetch users. Please try again.";
+          });
+      });
+    </script>
+  </body>
+</html>
