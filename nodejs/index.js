@@ -1,4 +1,5 @@
-console.log("hello world");
-console.log("object");
-console.log("hiii");
-console.log("object")
+function sum(a, b) {
+  return a + b;
+}
+
+export default sum;
