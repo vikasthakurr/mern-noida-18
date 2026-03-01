@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        :root {
+            --bg: #f3f8f6;
+            --surface: #ffffff;
+            --text: #1d2a2f;
+            --muted: #5b6d75;
+            --primary: #0f766e;
+            --accent: #f59e0b;
+            --ring: rgba(15, 118, 110, 0.2);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #edf7f4, #f8fafc);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 72px 0 48px;
+        }
+
+        .hero {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: 0 16px 40px rgba(7, 18, 24, 0.08);
+            padding: 48px;
+            border: 1px solid #e6edf0;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--primary);
+            background: #dff5f2;
+            padding: 6px 10px;
+            border-radius: 999px;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+
+        .lead {
+            color: var(--muted);
+            max-width: 720px;
+            font-size: 1.05rem;
+        }
+
+        .hero-actions {
+            margin-top: 28px;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(0.95);
+        }
+
+        .btn-outline {
+            color: var(--primary);
+            border-color: #b8d9d6;
+            background: #f7fffe;
+        }
+
+        .btn-outline:hover {
+            background: #ecfdf8;
+        }
+
+        section {
+            padding: 28px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid #e6edf0;
+            padding: 24px;
+            box-shadow: 0 8px 20px rgba(7, 18, 24, 0.05);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .card p {
+            color: var(--muted);
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .highlight {
+            background: linear-gradient(140deg, #0f766e, #115e59);
+            color: #fff;
+        }
+
+        .highlight p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.4rem;
+        }
+
+        .team {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .member {
+            background: var(--surface);
+            border: 1px solid #e6edf0;
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #dff5f2;
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            margin: 0 auto 12px;
+        }
+
+        .member small {
+            color: var(--muted);
+        }
+
+        footer {
+            padding: 32px 0 52px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .grid-3, .team {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .split {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 38px 0 24px;
+            }
+
+            .hero {
+                padding: 28px;
+            }
+
+            .grid-3, .team, .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="hero">
+                <span class="badge">About Us</span>
+                <h1>We build digital products that solve real business problems.</h1>
+                <p class="lead">
+                    Our team combines design, engineering, and strategy to create fast, reliable,
+                    and human-centered experiences for startups and growing companies.
+                </p>
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-primary">Work With Us</a>
+                    <a href="#" class="btn btn-outline">See Our Process</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <div class="grid-3">
+                <article class="card">
+                    <h3>Our Mission</h3>
+                    <p>To help teams launch meaningful products quickly without compromising quality.</p>
+                </article>
+                <article class="card">
+                    <h3>Our Vision</h3>
+                    <p>Technology should feel simple, inclusive, and useful for the people who rely on it.</p>
+                </article>
+                <article class="card">
+                    <h3>Our Values</h3>
+                    <p>Ownership, clarity, and continuous improvement drive everything we design and build.</p>
+                </article>
+            </div>
+        </section>
+
+        <section>
+            <div class="split">
+                <article class="card highlight">
+                    <h3>What Makes Us Different</h3>
+                    <p>
+                        We work in tight feedback loops and keep communication transparent from day one.
+                        That means fewer surprises, faster delivery, and better outcomes.
+                    </p>
+                    <div class="stats">
+                        <div class="stat">
+                            <strong>120+</strong>
+                            Projects Delivered
+                        </div>
+                        <div class="stat">
+                            <strong>35+</strong>
+                            Team Specialists
+                        </div>
+                        <div class="stat">
+                            <strong>98%</strong>
+                            Client Satisfaction
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h3>How We Work</h3>
+                    <p>
+                        We begin with discovery, move into rapid prototyping, and then develop in short,
+                        test-driven cycles. Every release is performance-focused and production-ready.
+                    </p>
+                    <p style="margin-top: 12px;">
+                        Whether you need a complete web platform or support for an existing product,
+                        we adapt our process to your goals.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section>
+            <h3 style="margin-bottom: 14px;">Meet Our Team</h3>
+            <div class="team">
+                <article class="member">
+                    <div class="avatar">AR</div>
+                    <h4>Ava Reed</h4>
+                    <small>Product Lead</small>
+                </article>
+                <article class="member">
+                    <div class="avatar">JL</div>
+                    <h4>James Lee</h4>
+                    <small>Frontend Engineer</small>
+                </article>
+                <article class="member">
+                    <div class="avatar">SM</div>
+                    <h4>Sophia Martin</h4>
+                    <small>UI/UX Designer</small>
+                </article>
+                <article class="member">
+                    <div class="avatar">NK</div>
+                    <h4>Noah Kim</h4>
+                    <small>Backend Engineer</small>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Your Company. Built with care and purpose.</p>
+    </footer>
+</body>
+</html>
