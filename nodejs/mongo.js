@@ -2,17 +2,20 @@ import express from "express";
 import mongoose from "mongoose";
 // import bcyrpt from "bcryptjs";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import cors from "cors";
+dotenv.config();
 
 const app = express();
+app.use(cors());
 const PORT = 3000;
 app.use(express.json());
 
 //db connection
 
 mongoose
-  .connect(
-    "mongodb+srv://vikaskumar20012001:Vikas123@mern-18.vo0gela.mongodb.net/",
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("db connected");
   })
@@ -65,14 +68,47 @@ app.post("/api/users/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "invalid credentials" });
-    return res.status(200).json({ message: "login successfull", user });
+
+    //jwt token
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "1d",
+      },
+    );
+    // if (!token) return res.status(400).json({ message: "token not generated" });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   maxAge: 1000 * 60 * 60 * 24,
+    // });
+    // if (!res.cookie) {
+    //   return;
+    // }
+    return res.status(200).json({ message: "login successfull", token });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "internal server error" });
   }
 });
 
-app.get("/api/users/getusers", async (req, res) => {
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
+    return res.status(401).json({ message: "access denied no token availble" });
+  }
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "invalid token" });
+  }
+};
+app.get("/api/users/getusers", verifyToken, async (req, res) => {
   try {
     const users = await User.find();
     if (!users) return res.status(404).json({ message: "user not found" });
