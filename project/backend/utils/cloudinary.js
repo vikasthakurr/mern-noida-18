@@ -1,29 +1,24 @@
-import cloudinary from "../config/cloudinary.js";
+import cloudinary from "../config/cloudinary.config.js";
 import fs from "fs";
 
-/**
- * Uploads a local file to Cloudinary and deletes the local file.
- * @param {string} localFilePath - Path to the local file.
- * @returns {Promise<object|null>} - Cloudinary upload response or null on error.
- */
+// uploads a local file to Cloudinary and cleans up the temp file afterwards
+// multer saves files to /uploads temporarily — this util handles the rest
+// returns the Cloudinary response object on success, null on failure
 const uploadOnCloudinary = async (localFilePath) => {
   try {
     if (!localFilePath) return null;
 
-    // upload file on cloudinary
+    // resource_type: "auto" lets Cloudinary detect image/video/raw automatically
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
     });
 
-    // file has been uploaded successfully
-    console.log("File is uploaded on cloudinary", response.url);
-    
-    // remove the locally saved temporary file
+    // delete the temp file after successful upload
     fs.unlinkSync(localFilePath);
-    
+
     return response;
   } catch (error) {
-    // remove the locally saved temporary file as the upload operation failed
+    // always clean up the temp file even if upload fails
     if (fs.existsSync(localFilePath)) {
       fs.unlinkSync(localFilePath);
     }

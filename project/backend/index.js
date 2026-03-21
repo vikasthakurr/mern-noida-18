@@ -1,20 +1,13 @@
-import express from "express";
+// dotenv must be configured before any other imports
+// so that process.env variables are available throughout the app
 import dotenv from "dotenv";
-import connectDB from "./config/db.js";
-import authController from "./controllers/auth.controller.js";
-
-const app = express();
 dotenv.config();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+import app from "./app.js";
+import connectDB from "./config/db.config.js";
 
-//mongo db connection coming from config file
+// connect to MongoDB before starting the server
 connectDB();
-
-//middleware routes
-
-app.use("/api/v1/auth", authController);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
