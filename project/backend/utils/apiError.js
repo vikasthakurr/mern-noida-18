@@ -1,6 +1,3 @@
-// custom error class that extends the native Error
-// allows throwing errors with an HTTP status code attached
-// usage: throw new ApiError(404, "User not found")
 class ApiError extends Error {
   constructor(statusCode, message) {
     super(message); // sets this.message
@@ -14,3 +11,4 @@ class ApiError extends Error {
 }
 
 export default ApiError;
+

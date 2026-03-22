@@ -1,0 +1,275 @@
+{
+  "workspaceId": "",
+  "collectionId": "",
+  "environmentId": "",
+  "collection": {
+    "info": {
+      "name": "Shopify API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      { "key": "base_url", "value": "http://localhost:3000/api/v1", "type": "string" },
+      { "key": "token", "value": "", "type": "string" },
+      { "key": "userId", "value": "", "type": "string" },
+      { "key": "orderId", "value": "", "type": "string" }
+    ],
+    "item": [
+      {
+        "name": "Auth",
+        "item": [
+          {
+            "name": "Register",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "formdata",
+                "formdata": [
+                  { "key": "name", "value": "Test User", "type": "text" },
+                  { "key": "email", "value": "test@example.com", "type": "text" },
+                  { "key": "password", "value": "password123", "type": "text" },
+                  { "key": "role", "value": "user", "type": "text" },
+                  { "key": "avatar", "type": "file", "src": "" }
+                ]
+              },
+              "url": "{{base_url}}/auth/register"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 201', () => pm.response.to.have.status(201));",
+                    "pm.test('Returns user object', () => {",
+                    "  const json = pm.response.json();",
+                    "  pm.expect(json).to.have.property('user');",
+                    "  pm.expect(json.user).to.have.property('_id');",
+                    "  pm.collectionVariables.set('userId', json.user._id);",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Login",
+            "request": {
+              "method": "POST",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+              },
+              "url": "{{base_url}}/auth/login"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Returns user object', () => {",
+                    "  const json = pm.response.json();",
+                    "  pm.expect(json).to.have.property('user');",
+                    "});",
+                    "const cookie = pm.cookies.get('token');",
+                    "if (cookie) pm.collectionVariables.set('token', cookie);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Get All Users",
+            "request": {
+              "method": "GET",
+              "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+              "url": "{{base_url}}/auth/allusers"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Returns array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Update User",
+            "request": {
+              "method": "PUT",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Authorization", "value": "Bearer {{token}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Updated Name\"\n}"
+              },
+              "url": "{{base_url}}/auth/update/{{userId}}"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Name updated', () => {",
+                    "  const json = pm.response.json();",
+                    "  pm.expect(json.user.name).to.eql('Updated Name');",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Delete User",
+            "request": {
+              "method": "DELETE",
+              "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+              "url": "{{base_url}}/auth/delete/{{userId}}"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Success message', () => {",
+                    "  pm.expect(pm.response.json().message).to.eql('User deleted successfully');",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Orders",
+        "description": "Order routes — controller is currently empty, requests will fail until implemented",
+        "item": [
+          {
+            "name": "Create Order",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Authorization", "value": "Bearer {{token}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"orderItems\": [\n    {\n      \"name\": \"Product A\",\n      \"qty\": 2,\n      \"price\": 29.99,\n      \"product\": \"<product_id>\"\n    }\n  ],\n  \"totalPrice\": 59.98\n}"
+              },
+              "url": "{{base_url}}/orders"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 201', () => pm.response.to.have.status(201));",
+                    "pm.test('Returns order', () => {",
+                    "  const json = pm.response.json();",
+                    "  pm.expect(json).to.have.property('order');",
+                    "  pm.collectionVariables.set('orderId', json.order._id);",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Get All Orders",
+            "request": {
+              "method": "GET",
+              "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+              "url": "{{base_url}}/orders"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Returns array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Get Order by ID",
+            "request": {
+              "method": "GET",
+              "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+              "url": "{{base_url}}/orders/{{orderId}}"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Returns order', () => pm.expect(pm.response.json()).to.have.property('order'));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Update Order Status",
+            "request": {
+              "method": "PUT",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Authorization", "value": "Bearer {{token}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"status\": \"processing\"\n}"
+              },
+              "url": "{{base_url}}/orders/{{orderId}}"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Status updated', () => {",
+                    "  pm.expect(pm.response.json().order.status).to.eql('processing');",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Delete Order",
+            "request": {
+              "method": "DELETE",
+              "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+              "url": "{{base_url}}/orders/{{orderId}}"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status is 200', () => pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
