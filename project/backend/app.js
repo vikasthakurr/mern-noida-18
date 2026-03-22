@@ -11,9 +11,12 @@ app.use(express.json());
 // parse URL-encoded form data (e.g. HTML forms)
 app.use(express.urlencoded({ extended: true }));
 
-// enable Cross-Origin Resource Sharing for all origins
-// in production, replace with specific origin: cors({ origin: "https://yourdomain.com" })
-app.use(cors());
+// credentials mode requires an explicit origin — wildcard "*" is rejected by browsers
+// when withCredentials is true on the client side
+app.use(cors({
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  credentials: true, // allows cookies / auth headers to be sent cross-origin
+}));
 
 // mount route handlers
 app.use("/api/v1/auth", authController);
