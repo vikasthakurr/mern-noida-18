@@ -13,7 +13,7 @@ const validationSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords do not match")
     .required("Please confirm your password"),
-  role: Yup.string().oneOf(ROLES).required("Role is required"),
+  role: Yup.string().oneOf(ROLES).required(),
   avatar: Yup.mixed().nullable(),
 });
 
@@ -23,28 +23,23 @@ function Signup() {
   const [preview, setPreview] = useState(null);
 
   const formik = useFormik({
-    initialValues: {
-      name: "", email: "", password: "", confirmPassword: "",
-      role: "user", avatar: null,
-    },
+    initialValues: { name: "", email: "", password: "", confirmPassword: "", role: "user", avatar: null },
     validationSchema,
     onSubmit: async ({ name, email, password, role, avatar }) => {
       setServerError(null);
       try {
-        // avatar upload requires multipart/form-data
         const formData = new FormData();
         formData.append("name", name);
         formData.append("email", email);
         formData.append("password", password);
         formData.append("role", role);
         if (avatar) formData.append("avatar", avatar);
-
         await axiosInstance.post("/auth/register", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         navigate("/login");
       } catch (err) {
-        setServerError(err.response?.data?.message || err.message || "Registration failed");
+        setServerError(err.response?.data?.message || "Registration failed");
       }
     },
   });
@@ -55,111 +50,93 @@ function Signup() {
     setPreview(file ? URL.createObjectURL(file) : null);
   };
 
-  const fieldError = (name) =>
-    formik.touched[name] && formik.errors[name] ? (
-      <p className="text-red-400 text-xs mt-1">{formik.errors[name]}</p>
-    ) : null;
+  const field = (name, type = "text", placeholder) => (
+    <div>
+      <input type={type} name={name} placeholder={placeholder}
+        value={formik.values[name]}
+        onChange={formik.handleChange} onBlur={formik.handleBlur}
+        className={`w-full border-b-2 px-0 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none transition-colors ${
+          formik.touched[name] && formik.errors[name] ? "border-red-400" : "border-gray-300 focus:border-[#2874f0]"
+        }`}
+      />
+      {formik.touched[name] && formik.errors[name] && (
+        <p className="text-red-500 text-xs mt-1">{formik.errors[name]}</p>
+      )}
+    </div>
+  );
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-10">
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-[#1a1a2e] mb-6 text-center">Create Account</h1>
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* left panel */}
+      <div className="hidden lg:flex flex-col justify-center bg-[#2874f0] w-[380px] shrink-0 px-12 py-16">
+        <h2 className="text-3xl font-bold text-white leading-snug mb-4">
+          Looks like<br />you're new here!
+        </h2>
+        <p className="text-blue-200 text-sm">Sign up with your details to get started.</p>
+      </div>
 
-        {serverError && <p className="text-red-500 text-sm mb-4 text-center">{serverError}</p>}
+      {/* right form */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12">
+        <div className="bg-white shadow-md rounded w-full max-w-sm p-8">
+          <h1 className="text-xl font-bold text-gray-800 mb-6">Create Account</h1>
 
-        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4" noValidate>
-
-          {/* avatar upload */}
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-20 h-20 rounded-full bg-gray-100 overflow-hidden border-2 border-dashed border-gray-300 flex items-center justify-center">
-              {preview
-                ? <img src={preview} alt="avatar preview" className="w-full h-full object-cover" />
-                : <span className="text-3xl text-gray-300">👤</span>
-              }
+          {serverError && (
+            <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-2.5 rounded mb-4">
+              {serverError}
             </div>
-            <label className="text-xs text-[#e94560] font-medium cursor-pointer hover:underline">
-              Upload Avatar
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleAvatarChange}
-              />
-            </label>
-          </div>
+          )}
 
-          {/* name */}
-          <div>
-            <input
-              type="text" name="name" placeholder="Full Name"
-              value={formik.values.name}
-              onChange={formik.handleChange} onBlur={formik.handleBlur}
-              className={`w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e94560] ${formik.touched.name && formik.errors.name ? "border-red-400" : "border-gray-200"}`}
-            />
-            {fieldError("name")}
-          </div>
+          <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5" noValidate>
 
-          {/* email */}
-          <div>
-            <input
-              type="email" name="email" placeholder="Email"
-              value={formik.values.email}
-              onChange={formik.handleChange} onBlur={formik.handleBlur}
-              className={`w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e94560] ${formik.touched.email && formik.errors.email ? "border-red-400" : "border-gray-200"}`}
-            />
-            {fieldError("email")}
-          </div>
+            {/* avatar */}
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 overflow-hidden flex items-center justify-center shrink-0">
+                {preview
+                  ? <img src={preview} alt="preview" className="w-full h-full object-cover" />
+                  : <span className="text-2xl text-gray-300">👤</span>
+                }
+              </div>
+              <label className="text-sm text-[#2874f0] font-medium cursor-pointer hover:underline">
+                Upload Photo
+                <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+              </label>
+            </div>
 
-          {/* password */}
-          <div>
-            <input
-              type="password" name="password" placeholder="Password"
-              value={formik.values.password}
-              onChange={formik.handleChange} onBlur={formik.handleBlur}
-              className={`w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e94560] ${formik.touched.password && formik.errors.password ? "border-red-400" : "border-gray-200"}`}
-            />
-            {fieldError("password")}
-          </div>
+            {field("name",            "text",     "Full Name")}
+            {field("email",           "email",    "Email")}
+            {field("password",        "password", "Password")}
+            {field("confirmPassword", "password", "Confirm Password")}
 
-          {/* confirm password */}
-          <div>
-            <input
-              type="password" name="confirmPassword" placeholder="Confirm Password"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange} onBlur={formik.handleBlur}
-              className={`w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e94560] ${formik.touched.confirmPassword && formik.errors.confirmPassword ? "border-red-400" : "border-gray-200"}`}
-            />
-            {fieldError("confirmPassword")}
-          </div>
+            {/* role */}
+            <div>
+              <select name="role" value={formik.values.role}
+                onChange={formik.handleChange} onBlur={formik.handleBlur}
+                className="w-full border-b-2 border-gray-300 focus:border-[#2874f0] py-2 text-sm text-gray-700 focus:outline-none cursor-pointer bg-transparent">
+                {ROLES.map((r) => <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>)}
+              </select>
+            </div>
 
-          {/* role */}
-          <div>
-            <select
-              name="role"
-              value={formik.values.role}
-              onChange={formik.handleChange} onBlur={formik.handleBlur}
-              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e94560] cursor-pointer"
-            >
-              {ROLES.map((r) => (
-                <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>
-              ))}
-            </select>
-            {fieldError("role")}
-          </div>
+            <p className="text-xs text-gray-500">
+              By continuing, you agree to ShopZone's Terms of Use and Privacy Policy.
+            </p>
 
-          <button
-            type="submit"
-            disabled={formik.isSubmitting || !formik.isValid}
-            className="bg-[#e94560] hover:bg-[#c73652] text-white py-2 rounded-lg font-semibold text-sm transition-colors disabled:opacity-60 cursor-pointer"
-          >
-            {formik.isSubmitting ? "Creating account..." : "Sign Up"}
-          </button>
-        </form>
+            <button type="submit" disabled={formik.isSubmitting || !formik.isValid}
+              className="w-full bg-[#fb641b] hover:bg-orange-600 text-white py-3 rounded font-bold text-sm transition-colors disabled:opacity-60 cursor-pointer">
+              {formik.isSubmitting ? "Creating account..." : "Continue"}
+            </button>
 
-        <p className="text-sm text-center text-gray-500 mt-4">
-          Already have an account?{" "}
-          <Link to="/login" className="text-[#e94560] hover:underline font-medium">Login</Link>
-        </p>
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px bg-gray-200" />
+              <span className="text-xs text-gray-400">Existing user?</span>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+
+            <Link to="/login"
+              className="w-full border border-[#2874f0] text-[#2874f0] py-3 rounded font-bold text-sm text-center hover:bg-blue-50 transition-colors">
+              Login
+            </Link>
+          </form>
+        </div>
       </div>
     </div>
   );

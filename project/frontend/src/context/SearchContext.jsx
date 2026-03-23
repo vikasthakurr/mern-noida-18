@@ -3,13 +3,13 @@ import { createContext, useContext, useState, useMemo } from "react";
 const SearchContext = createContext(null);
 
 export function SearchProvider({ children }) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery]       = useState("");
+  const [navCategory, setNavCategory] = useState("all"); // set by Navbar category strip
 
-  // expose a trimmed lowercase version for consumers to filter against
   const normalizedQuery = useMemo(() => query.trim().toLowerCase(), [query]);
 
   return (
-    <SearchContext.Provider value={{ query, setQuery, normalizedQuery }}>
+    <SearchContext.Provider value={{ query, setQuery, normalizedQuery, navCategory, setNavCategory }}>
       {children}
     </SearchContext.Provider>
   );

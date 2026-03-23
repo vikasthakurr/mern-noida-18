@@ -26,6 +26,8 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.token = null;
+      state.loading = false;
+      state.error = null;
     },
     // use this to mark user as authenticated when no token is returned (cookie-based)
     setUser(state, action) {

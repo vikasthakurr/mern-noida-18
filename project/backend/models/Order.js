@@ -9,10 +9,12 @@ const orderSchema = new mongoose.Schema(
     // array of items in the order — each references a Product document
     orderItems: [
       {
-        name: { type: String, required: true },
-        qty: { type: Number, required: true },
+        name:  { type: String, required: true },
+        qty:   { type: Number, required: true },
         price: { type: Number, required: true },
-        product: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Product" },
+        image: { type: String, default: "" },
+        // external product id (dummyjson) — stored as string, not ObjectId ref
+        productId: { type: String, default: "" },
       },
     ],
 

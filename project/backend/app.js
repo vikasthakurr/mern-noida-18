@@ -1,15 +1,14 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import authController from "./controllers/auth.controller.js";
 import orderController from "./controllers/order.controller.js";
 
 const app = express();
 
-// parse incoming JSON request bodies
 app.use(express.json());
-
-// parse URL-encoded form data (e.g. HTML forms)
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); // must be before routes so req.cookies is populated
 
 // credentials mode requires an explicit origin — wildcard "*" is rejected by browsers
 // when withCredentials is true on the client side
